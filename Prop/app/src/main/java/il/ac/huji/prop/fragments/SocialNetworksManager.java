@@ -24,7 +24,7 @@ public class SocialNetworksManager extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView=inflater.inflate(R.layout.social_network_manager,null);
-networkOptionsList=(ListView)mView.findViewById(R.id.social_network_options);
+        networkOptionsList=(ListView)mView.findViewById(R.id.social_network_options);
         propList=(ListView)mView.findViewById(R.id.social_network_groups);
         initOptionsList();
         return mView;

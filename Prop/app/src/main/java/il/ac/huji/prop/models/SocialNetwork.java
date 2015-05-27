@@ -7,10 +7,12 @@ public class SocialNetwork {
 
     private String name;
     private int icon;
+    private boolean isOpen;
 
-    public SocialNetwork(String name, int icon){
+    public SocialNetwork(String name, int icon,boolean isOpen){
         this.name=name;
         this.icon=icon;
+        this.isOpen = isOpen;
     }
     public String getName() {
         return name;
@@ -26,5 +28,12 @@ public class SocialNetwork {
 
     public void setIcon(int icon) {
         this.icon = icon;
+    }
+
+    public boolean isOpen(){
+        return this.isOpen;
+    }
+    public void propagate(){
+        return;
     }
 }
