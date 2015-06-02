@@ -31,6 +31,9 @@ public class SocialNetworksManager extends BaseFragment {
     }
 
     private void initOptionsList(){
+        /*TODO create a "blank" prop that contains all the social nets, by getting Prop.snList (social network list)
+        * we can do all this automatically
+        */
         ArrayList<SocialNetwork> networks=new ArrayList<SocialNetwork>();
         networks.add(new SocialNetwork("facebook", R.drawable.facebook));
         networks.add(new SocialNetwork("g+", R.drawable.g_plus));
@@ -39,5 +42,8 @@ public class SocialNetworksManager extends BaseFragment {
 
         SocialNetworkOptionsAdapter adapter= new SocialNetworkOptionsAdapter(getActivity(),networks);
         networkOptionsList.setAdapter(adapter);
+    }
+    private void initPropList(){
+        
     }
 }

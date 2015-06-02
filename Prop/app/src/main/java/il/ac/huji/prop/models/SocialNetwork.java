@@ -34,6 +34,7 @@ public class SocialNetwork {
         return this.isOpen;
     }
     public void propagate(){
+
         return;
     }
 }
