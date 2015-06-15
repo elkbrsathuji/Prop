@@ -20,15 +20,24 @@
         android:layout_toLeftOf="@+id/divider"
         />
 
+
+    <RelativeLayout
+        android:id="@+id/droppedTarget"
+        android:layout_width="match_parent"
+        android:layout_toRightOf="@+id/divider"
+        android:layout_height="match_parent">
+
 <ListView
     android:id="@+id/social_network_groups"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_toRightOf="@+id/divider"
+
     android:dividerHeight="0dp"
     android:padding="8dp"
 
     />
+    </RelativeLayout>
+
 
     <ImageView
         android:layout_width="wrap_content"
