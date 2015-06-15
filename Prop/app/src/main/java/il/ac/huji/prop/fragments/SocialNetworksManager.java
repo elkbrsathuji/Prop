@@ -35,7 +35,7 @@ public class SocialNetworksManager extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView=inflater.inflate(R.layout.social_network_manager,null);
-networkOptionsList=(ListView)mView.findViewById(R.id.social_network_options);
+        networkOptionsList=(ListView)mView.findViewById(R.id.social_network_options);
         propList=(ListView)mView.findViewById(R.id.social_network_groups);
 target=(RelativeLayout)mView.findViewById(R.id.droppedTarget);
         target.setOnDragListener(new MyDragEventListener());
@@ -44,6 +44,9 @@ target=(RelativeLayout)mView.findViewById(R.id.droppedTarget);
     }
 
     private void initOptionsList(){
+        /*TODO create a "blank" prop that contains all the social nets, by getting Prop.snList (social network list)
+        * we can do all this automatically
+        */
         ArrayList<SocialNetwork> networks=new ArrayList<SocialNetwork>();
         networks.add(new SocialNetwork("facebook", R.drawable.facebook));
         networks.add(new SocialNetwork("g+", R.drawable.g_plus));
@@ -134,5 +137,8 @@ target=(RelativeLayout)mView.findViewById(R.id.droppedTarget);
 
             }
         }
+    }
+    private void initPropList(){
+        
     }
 }
