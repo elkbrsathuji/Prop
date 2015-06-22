@@ -8,11 +8,13 @@ import android.view.MenuItem;
 import il.ac.huji.prop.R;
 
 public class PostActivity extends ActionBarActivity {
-
+private String post;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+        post = null;
+        
     }
 
 
