@@ -30,7 +30,7 @@ private LoginButton fbLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-FacebookSdk.sdkInitialize(getApplicationContext());
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
         clbkManager=CallbackManager.Factory.create();
         fbLogin=(LoginButton)findViewById(R.id.login_button);
