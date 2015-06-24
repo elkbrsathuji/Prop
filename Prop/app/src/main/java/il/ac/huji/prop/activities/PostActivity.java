@@ -4,17 +4,31 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
 
 import il.ac.huji.prop.R;
 
 public class PostActivity extends ActionBarActivity {
-private String post;
+    private EditText txt;
+    private Button bPhoto;
+    private Button bLoc;
+    private Button bVid;
+    private Button bFile;
+    private Button bChooseProp;
+    private Button bProp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
         post = null;
-        
+        txt = (EditText) findViewById(R.id.post_text);
+        bPhoto = (Button) findViewById(R.id.post_photo);
+        bVid = (Button) findViewById(R.id.post_vid);
+        bLoc = (Button) findViewById(R.id.post_location);
+        bFile = (Button) findViewById(R.id.post_file);
+        bChooseProp = (Button) findViewById(R.id.post_choose_prop);
+        bProp = (Button) findViewById(R.id.post_prop);
     }
 
 
