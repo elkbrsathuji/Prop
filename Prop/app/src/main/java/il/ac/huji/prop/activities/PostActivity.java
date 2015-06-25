@@ -1,5 +1,8 @@
 package il.ac.huji.prop.activities;
 
+import android.content.res.Resources;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,13 +17,19 @@ import android.widget.ImageView;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 import il.ac.huji.prop.R;
 
-public class PostActivity extends ActionBarActivity implements OnClickListener    {
+public class PostActivity extends ActionBarActivity implements View.OnClickListener {
 
     private static final int SELECT_PICTURE = 1;
     private EditText txt;
     private Button bPhoto;
+    private Uri outputFileUri;
     private Button bLoc;
     private Button bVid;
     private Button bFile;
@@ -46,7 +55,7 @@ public class PostActivity extends ActionBarActivity implements OnClickListener  
         bChooseProp = (Button) findViewById(R.id.post_choose_prop);
         bChooseProp.setOnClickListener(this);
         bProp = (Button) findViewById(R.id.post_prop);
-        bProp.setOnClickListener(this);4
+        bProp.setOnClickListener(this);
     }
 
     public void onClick(View v){
@@ -57,7 +66,7 @@ public class PostActivity extends ActionBarActivity implements OnClickListener  
                 break;
             }
             case (R.id.post_vid):{
-                uploaVid();
+                uploadVid();
                 break;
             }
             case (R.id.post_location):{
@@ -104,14 +113,16 @@ public class PostActivity extends ActionBarActivity implements OnClickListener  
     }
 }
 
-    private void postPhoto() {
+
+    private void uploadPhoto() {
         Intent pickIntent = new Intent();
         pickIntent.setType("image/*");
         pickIntent.setAction(Intent.ACTION_GET_CONTENT);
+        pickIntent.addCategory(Intent.CATEGORY_OPENABLE);
 
         Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        String pickTitle = "Select or take a new Picture"; // Or get from strings.xml
+        String pickTitle = Resources.getSystem().getString(R.string.pick_pic);
         Intent chooserIntent = Intent.createChooser(pickIntent, pickTitle);
         chooserIntent.putExtra
                 (
@@ -121,13 +132,32 @@ public class PostActivity extends ActionBarActivity implements OnClickListener  
 
         startActivityForResult(chooserIntent, SELECT_PICTURE);
     }
-    private void postVid() {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK)
+            try {
+                // We need to recycle unused bitmaps
+                if (bitmap != null) {
+                    bitmap.recycle();
+                }
+                InputStream stream = getContentResolver().openInputStream(
+                        data.getData());
+                bitmap = BitmapFactory.decodeStream(stream);
+                stream.close();
+                imageView.setImageBitmap(bitmap);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        super.onActivityResult(requestCode, resultCode, data);
     }
-    private void postLocation() {
+    private void uploadVid() {
     }
-    private void postfile() {
+    private void uploadLoc() {
     }
-    private void ChooseProp() {
+    private void uploadFile() {
+    }
+    private void chooseProp() {
     }
     private void postProp() {
 
