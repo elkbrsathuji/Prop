@@ -3,13 +3,13 @@ package il.ac.huji.prop.models;
 /**
  * Created by Android- on 5/10/2015.
  */
-public class SocialNetwork {
+public class Service {
 
     private String name;
     private int icon;
     private boolean isOpen;
 
-    public SocialNetwork(String name, int icon,boolean isOpen){
+    public Service(String name, int icon, boolean isOpen){
         this.name=name;
         this.icon=icon;
         this.isOpen = isOpen;
@@ -33,7 +33,8 @@ public class SocialNetwork {
     public boolean isOpen(){
         return this.isOpen;
     }
-    public void propagate(){
+
+    public void propagate(Post post){
 
         return;
     }

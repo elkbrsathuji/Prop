@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 import il.ac.huji.prop.R;
-import il.ac.huji.prop.models.SocialNetwork;
 
 /**
 * Created by Android- on 5/11/2015.
@@ -46,7 +45,7 @@ public class GroupAdapter  extends BaseAdapter{
         final ImageView iv;
 
         if (convertView==null){
-            convertView=mInflater.inflate(R.layout.row_network_option,null,false);
+            convertView=mInflater.inflate(R.layout.row_service_option,null,false);
             iv=(ImageView)convertView.findViewById(R.id.network_icon);
             convertView.setTag(iv);
         }else{
