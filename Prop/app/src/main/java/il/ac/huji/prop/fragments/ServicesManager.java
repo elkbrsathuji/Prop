@@ -15,16 +15,16 @@ import java.util.ArrayList;
 
 import il.ac.huji.prop.R;
 import il.ac.huji.prop.adapters.GroupAdapter;
-import il.ac.huji.prop.adapters.SocialNetworkOptionsAdapter;
+import il.ac.huji.prop.adapters.ServicesOptionsAdapter;
 import il.ac.huji.prop.models.Service;
 
 /**
  * Created by Android- on 5/10/2015.
  */
-public class SocialNetworksManager extends BaseFragment {
+public class ServicesManager extends BaseFragment {
 
     private View mView;
-    private ListView networkOptionsList;
+    private ListView serviceOptionsList;
     private ListView propList;
     ImageView first,second;
     GroupAdapter gadapter;
@@ -32,8 +32,8 @@ public class SocialNetworksManager extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView=inflater.inflate(R.layout.social_network_manager,null);
-        networkOptionsList=(ListView)mView.findViewById(R.id.social_network_options);
+        mView=inflater.inflate(R.layout.service_manager,null);
+        serviceOptionsList =(ListView)mView.findViewById(R.id.social_network_options);
         propList=(ListView)mView.findViewById(R.id.social_network_groups);
 target=(RelativeLayout)mView.findViewById(R.id.droppedTarget);
         target.setOnDragListener(new MyDragEventListener());
@@ -51,8 +51,8 @@ target=(RelativeLayout)mView.findViewById(R.id.droppedTarget);
         networks.add(new Service("instagram", R.drawable.instagram));
         networks.add(new Service("linkedIn", R.drawable.linkedin));
 
-        SocialNetworkOptionsAdapter adapter= new SocialNetworkOptionsAdapter(getActivity(),networks);
-        networkOptionsList.setAdapter(adapter);
+        ServicesOptionsAdapter adapter= new ServicesOptionsAdapter(getActivity(),networks);
+        serviceOptionsList.setAdapter(adapter);
 
 
       gadapter  = new GroupAdapter(getActivity());

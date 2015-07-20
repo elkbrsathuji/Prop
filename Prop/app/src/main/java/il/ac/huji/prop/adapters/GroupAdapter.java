@@ -45,7 +45,7 @@ public class GroupAdapter  extends BaseAdapter{
         final ImageView iv;
 
         if (convertView==null){
-            convertView=mInflater.inflate(R.layout.row_network_option,null,false);
+            convertView=mInflater.inflate(R.layout.row_service_option,null,false);
             iv=(ImageView)convertView.findViewById(R.id.network_icon);
             convertView.setTag(iv);
         }else{
