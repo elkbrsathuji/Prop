@@ -12,7 +12,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import il.ac.huji.prop.R;
 import il.ac.huji.prop.adapters.GroupAdapter;
@@ -30,7 +29,7 @@ public class ServicesManager extends BaseFragment {
     private ListView propList;
     private Prop list;
     ImageView first,second;
-    GroupAdapter gadapter;
+    GroupAdapter gAdapter;
     RelativeLayout target;
 
     @Override
@@ -57,8 +56,8 @@ public class ServicesManager extends BaseFragment {
     private void initOptionsList(){
         ServicesOptionsAdapter adapter = new ServicesOptionsAdapter(getActivity(),list.getSnList());
         serviceOptionsList.setAdapter(adapter);
-        gadapter  = new GroupAdapter(getActivity());
-        propList.setAdapter(gadapter);
+        gAdapter = new GroupAdapter(getActivity());
+        propList.setAdapter(gAdapter);
     }
 
 
@@ -112,7 +111,7 @@ public class ServicesManager extends BaseFragment {
 //                                + droppedItem + "\n";
 //                        comments.setText(commentMsg);
 
-                        gadapter.addItem(droppedItem);
+                        gAdapter.addItem(droppedItem);
                        // droppedAdapter.notifyDataSetChanged();
 
                         return true;

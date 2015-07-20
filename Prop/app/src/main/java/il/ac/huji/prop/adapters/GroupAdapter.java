@@ -27,12 +27,11 @@ public class GroupAdapter  extends BaseAdapter{
     }
     @Override
     public int getCount() {
-        return selected==null?0:selected.size();
+        return selected == null ? 0 : selected.size();
     }
 
     @Override
-    public Object getItem(int position) {
-        return selected==null?null:selected.get(position);
+    public Object getItem(int position) { return selected == null ? null : selected.get(position);
     }
 
     @Override
@@ -44,12 +43,12 @@ public class GroupAdapter  extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         final ImageView iv;
 
-        if (convertView==null){
-            convertView=mInflater.inflate(R.layout.row_service_option,null,false);
-            iv=(ImageView)convertView.findViewById(R.id.network_icon);
+        if (convertView == null){
+            convertView = mInflater.inflate(R.layout.row_service_option,null,false);
+            iv = (ImageView) convertView.findViewById(R.id.network_icon);
             convertView.setTag(iv);
         }else{
-            iv=(ImageView)convertView.getTag();
+            iv = (ImageView) convertView.getTag();
         }
         iv.setImageResource(selected.get(position));
         return convertView;
