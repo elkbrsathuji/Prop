@@ -22,25 +22,25 @@ import il.ac.huji.prop.models.Service;
 /**
  * Created by Android- on 5/10/2015.
  */
-public class SocialNetworkOptionsAdapter extends BaseAdapter {
+public class ServicesOptionsAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private ArrayList<Service> mNetworks;
+    private ArrayList<Service> mServices;
 
-    public SocialNetworkOptionsAdapter(Context context, ArrayList<Service> list){
+    public ServicesOptionsAdapter(Context context, ArrayList<Service> list){
         mContext=context;
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mNetworks=list;
+        mServices =list;
     }
     @Override
     public int getCount() {
-        return mNetworks==null?0:mNetworks.size();
+        return mServices == null ? 0 : mServices.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mNetworks==null?null:mNetworks.get(position);
+        return mServices == null ? null : mServices.get(position);
     }
 
     @Override
@@ -52,15 +52,15 @@ public class SocialNetworkOptionsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final ImageView iv;
 
-        if (convertView==null){
-            convertView=mInflater.inflate(R.layout.row_network_option,null,false);
-            iv=(ImageView)convertView.findViewById(R.id.network_icon);
+        if (convertView == null){
+            convertView = mInflater.inflate(R.layout.row_service_option,null,false);
+            iv = (ImageView) convertView.findViewById(R.id.network_icon);
             convertView.setTag(iv);
         }else{
-            iv=(ImageView)convertView.getTag();
+            iv = (ImageView) convertView.getTag();
         }
-        iv.setImageResource(mNetworks.get(position).getIcon());
-        iv.setTag(""+mNetworks.get(position).getIcon());
+        iv.setImageResource(mServices.get(position).getIcon());
+        iv.setTag("" + mServices.get(position).getIcon());
         iv.setOnLongClickListener(new MyLongClickListener());
      //   iv.setOnDragListener(new MyDragListener());
         return convertView;
