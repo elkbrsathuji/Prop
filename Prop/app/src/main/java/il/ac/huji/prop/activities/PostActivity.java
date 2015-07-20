@@ -1,7 +1,12 @@
 package il.ac.huji.prop.activities;
 
+import android.content.ComponentName;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -13,83 +18,83 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import il.ac.huji.prop.R;
+import il.ac.huji.prop.models.Utils;
 
 public class PostActivity extends ActionBarActivity implements View.OnClickListener {
 
-    private static final int SELECT_PICTURE = 1;
-    private EditText txt;
-    private Button bPhoto;
+    private static final int PIC_CODE = 1;
+    private EditText post;
+    private ImageButton bPhoto, bLoc, bVid, bFile, bChooseProp, bProp;
     private Uri outputFileUri;
-    private Button bLoc;
-    private Button bVid;
-    private Button bFile;
-    private Button bChooseProp;
-    private Button bProp;
     private Bitmap bitmap;
     private ImageView imageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-        post = null;
-        txt = (EditText) findViewById(R.id.post_text);
-
-        bPhoto = (Button) findViewById(R.id.post_photo);
+        post = (EditText) findViewById(R.id.post_text);
+        bPhoto = (ImageButton) findViewById(R.id.post_photo);
         bPhoto.setOnClickListener(this);
-        bVid = (Button) findViewById(R.id.post_vid);
+        bVid = (ImageButton) findViewById(R.id.post_vid);
         bVid.setOnClickListener(this);
-        bLoc = (Button) findViewById(R.id.post_location);
+        bLoc = (ImageButton) findViewById(R.id.post_location);
         bLoc.setOnClickListener(this);
-        bFile = (Button) findViewById(R.id.post_file);
+        bFile = (ImageButton) findViewById(R.id.post_file);
         bFile.setOnClickListener(this);
-        bChooseProp = (Button) findViewById(R.id.post_choose_prop);
+        bChooseProp = (ImageButton) findViewById(R.id.post_choose_prop);
         bChooseProp.setOnClickListener(this);
-        bProp = (Button) findViewById(R.id.post_prop);
+        bProp = (ImageButton) findViewById(R.id.post_prop);
         bProp.setOnClickListener(this);
     }
 
-    public void onClick(View v){
-        switch(v.getId()){
+    public void onClick(View v) {
+        switch (v.getId()) {
 
-            case (R.id.post_photo):{
+            case (R.id.post_photo): {
                 uploadPhoto();
                 break;
             }
-            case (R.id.post_vid):{
+            case (R.id.post_vid): {
                 uploadVid();
                 break;
             }
-            case (R.id.post_location):{
+            case (R.id.post_location): {
                 uploadLoc();
                 break;
-                
+
             }
-            case (R.id.post_file):{
+            case (R.id.post_file): {
                 uploadFile();
                 break;
             }
-            case (R.id.post_choose_prop):{
+            case (R.id.post_choose_prop): {
                 chooseProp();
                 break;
             }
-            case (R.id.post_prop):{
+            case (R.id.post_prop): {
                 postProp();
                 break;
             }
 
 
-
         }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -111,65 +116,67 @@ public class PostActivity extends ActionBarActivity implements View.OnClickListe
 
         return super.onOptionsItemSelected(item);
     }
-}
 
 
-    private void uploadPhoto() {
-        Intent pickIntent = new Intent();
-        pickIntent.setType("image/*");
-        pickIntent.setAction(Intent.ACTION_GET_CONTENT);
-        pickIntent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        String pickTitle = Resources.getSystem().getString(R.string.pick_pic);
-        Intent chooserIntent = Intent.createChooser(pickIntent, pickTitle);
-        chooserIntent.putExtra
-                (
-                        Intent.EXTRA_INITIAL_INTENTS,
-                        new Intent[] { takePhotoIntent }
-                );
-
-        startActivityForResult(chooserIntent, SELECT_PICTURE);
-    }
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK)
-            try {
-                // We need to recycle unused bitmaps
-                if (bitmap != null) {
-                    bitmap.recycle();
-                }
-                InputStream stream = getContentResolver().openInputStream(
-                        data.getData());
-                bitmap = BitmapFactory.decodeStream(stream);
-                stream.close();
-                imageView.setImageBitmap(bitmap);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
+    //    private void uploadPhoto() {
+//        Intent pickIntent = new Intent();
+//        pickIntent.setType("image/*");
+//        pickIntent.setAction(Intent.ACTION_GET_CONTENT);
+//        pickIntent.addCategory(Intent.CATEGORY_OPENABLE);
+//
+//        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//
+//        String pickTitle = Resources.getSystem().getString(R.string.pick_pic);
+//        Intent chooserIntent = Intent.createChooser(pickIntent, pickTitle);
+//        chooserIntent.putExtra
+//                (
+//                        Intent.EXTRA_INITIAL_INTENTS,
+//                        new Intent[] { takePhotoIntent }
+//                );
+//
+//        startActivityForResult(chooserIntent, SELECT_PICTURE);
+//    }
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK)
+//            try {
+//                // We need to recycle unused bitmaps
+//                if (bitmap != null) {
+//                    bitmap.recycle();
+//                }
+//                InputStream stream = getContentResolver().openInputStream(
+//                        data.getData());
+//                bitmap = BitmapFactory.decodeStream(stream);
+//                stream.close();
+//                imageView.setImageBitmap(bitmap);
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
     private void uploadVid() {
     }
+
     private void uploadLoc() {
     }
+
     private void uploadFile() {
     }
+
     private void chooseProp() {
     }
+
     private void postProp() {
 
     }
-    private Uri outputFileUri;
 
-    private void openImageIntent() {
+    private void uploadPhoto() {
 
-// Determine Uri of camera image to save.
+        // Determine Uri of camera image to save.
         final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "MyDir" + File.separator);
         root.mkdirs();
-        final String fname = Utils.getUniqueImageFilename();
+        final String fname = Integer.toString(android.os.Process.myPid());
         final File sdImageMainDirectory = new File(root, fname);
         outputFileUri = Uri.fromFile(sdImageMainDirectory);
 
@@ -178,7 +185,7 @@ public class PostActivity extends ActionBarActivity implements View.OnClickListe
         final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         final PackageManager packageManager = getPackageManager();
         final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-        for(ResolveInfo res : listCam) {
+        for (ResolveInfo res : listCam) {
             final String packageName = res.activityInfo.packageName;
             final Intent intent = new Intent(captureIntent);
             intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
@@ -198,13 +205,13 @@ public class PostActivity extends ActionBarActivity implements View.OnClickListe
         // Add the camera options.
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
 
-        startActivityForResult(chooserIntent, YOUR_SELECT_PICTURE_REQUEST_CODE);
+        startActivityForResult(chooserIntent, PIC_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            if (requestCode == YOUR_SELECT_PICTURE_REQUEST_CODE) {
+            if (requestCode == PIC_CODE) {
                 final boolean isCamera;
                 if (data == null) {
                     isCamera = true;
@@ -226,3 +233,4 @@ public class PostActivity extends ActionBarActivity implements View.OnClickListe
             }
         }
     }
+}
