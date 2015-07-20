@@ -8,19 +8,16 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
 import il.ac.huji.prop.R;
-import il.ac.huji.prop.fragments.BaseFragment;
-import il.ac.huji.prop.models.SocialNetwork;
+import il.ac.huji.prop.models.Service;
 
 /**
  * Created by Android- on 5/10/2015.
@@ -29,9 +26,9 @@ public class SocialNetworkOptionsAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private ArrayList<SocialNetwork> mNetworks;
+    private ArrayList<Service> mNetworks;
 
-    public SocialNetworkOptionsAdapter(Context context, ArrayList<SocialNetwork> list){
+    public SocialNetworkOptionsAdapter(Context context, ArrayList<Service> list){
         mContext=context;
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mNetworks=list;

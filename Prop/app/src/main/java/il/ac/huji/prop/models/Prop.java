@@ -5,19 +5,19 @@ package il.ac.huji.prop.models;
  */
 public class Prop {
 
-    private SocialNetwork [] snList;
+    private Service[] snList;
     private String name;
     private long id;
 
 
-    public Prop(SocialNetwork[] snList, String name, long id) {
+    public Prop(Service[] snList, String name, long id) {
 
         this.snList = snList;
         this.name = name;
         this.id = id;
     }
 
-    public void setSnList(SocialNetwork[] snList) {
+    public void setSnList(Service[] snList) {
         this.snList = snList;
     }
 
@@ -25,7 +25,7 @@ public class Prop {
         this.name = name;
     }
 
-    public SocialNetwork [] getSnList() {
+    public Service[] getSnList() {
         return snList;
     }
 
@@ -37,10 +37,10 @@ public class Prop {
         return id;
     }
 
-    public void Propagate(){
-        for (SocialNetwork sn:snList){
+    public void propagate(Post post){
+        for (Service sn:snList){
             if (sn.isOpen()) {
-                sn.propagate();
+                sn.propagate(post);
             }
         }
     }

@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 import il.ac.huji.prop.R;
-import il.ac.huji.prop.models.SocialNetwork;
 
 /**
 * Created by Android- on 5/11/2015.

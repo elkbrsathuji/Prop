@@ -2,14 +2,12 @@ package il.ac.huji.prop.fragments;
 
 import android.content.ClipData;
 import android.content.ClipDescription;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -18,7 +16,7 @@ import java.util.ArrayList;
 import il.ac.huji.prop.R;
 import il.ac.huji.prop.adapters.GroupAdapter;
 import il.ac.huji.prop.adapters.SocialNetworkOptionsAdapter;
-import il.ac.huji.prop.models.SocialNetwork;
+import il.ac.huji.prop.models.Service;
 
 /**
  * Created by Android- on 5/10/2015.
@@ -47,11 +45,11 @@ target=(RelativeLayout)mView.findViewById(R.id.droppedTarget);
         /*TODO create a "blank" prop that contains all the social nets, by getting Prop.snList (social network list)
         * we can do all this automatically
         */
-        ArrayList<SocialNetwork> networks=new ArrayList<SocialNetwork>();
-        networks.add(new SocialNetwork("facebook", R.drawable.facebook));
-        networks.add(new SocialNetwork("g+", R.drawable.g_plus));
-        networks.add(new SocialNetwork("instagram", R.drawable.instagram));
-        networks.add(new SocialNetwork("linkedIn", R.drawable.linkedin));
+        ArrayList<Service> networks=new ArrayList<Service>();
+        networks.add(new Service("facebook", R.drawable.facebook));
+        networks.add(new Service("g+", R.drawable.g_plus));
+        networks.add(new Service("instagram", R.drawable.instagram));
+        networks.add(new Service("linkedIn", R.drawable.linkedin));
 
         SocialNetworkOptionsAdapter adapter= new SocialNetworkOptionsAdapter(getActivity(),networks);
         networkOptionsList.setAdapter(adapter);
