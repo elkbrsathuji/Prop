@@ -12,10 +12,12 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import il.ac.huji.prop.R;
 import il.ac.huji.prop.adapters.GroupAdapter;
 import il.ac.huji.prop.adapters.ServicesOptionsAdapter;
+import il.ac.huji.prop.models.Prop;
 import il.ac.huji.prop.models.Service;
 
 /**
@@ -26,36 +28,36 @@ public class ServicesManager extends BaseFragment {
     private View mView;
     private ListView serviceOptionsList;
     private ListView propList;
+    private Prop list;
     ImageView first,second;
     GroupAdapter gadapter;
     RelativeLayout target;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView=inflater.inflate(R.layout.service_manager,null);
-        serviceOptionsList =(ListView)mView.findViewById(R.id.social_network_options);
-        propList=(ListView)mView.findViewById(R.id.social_network_groups);
-target=(RelativeLayout)mView.findViewById(R.id.droppedTarget);
+        mView = inflater.inflate(R.layout.service_manager,null);
+        serviceOptionsList = (ListView) mView.findViewById(R.id.social_network_options);
+        propList = (ListView) mView.findViewById(R.id.social_network_groups);
+        target = (RelativeLayout) mView.findViewById(R.id.droppedTarget);
         target.setOnDragListener(new MyDragEventListener());
+        list = new Prop("global",createGlobalList(),0);
         initOptionsList();
         return mView;
     }
+//One place to rule them all
+    private ArrayList<Service> createGlobalList() {
+        ArrayList<Service> networks = new ArrayList<Service>();
+        networks.add(new Service("facebook", R.drawable.facebook,false));
+        networks.add(new Service("g+", R.drawable.g_plus,false));
+        networks.add(new Service("instagram", R.drawable.instagram,false));
+        networks.add(new Service("linkedIn", R.drawable.linkedin,false));
+        return networks;
+    }
 
     private void initOptionsList(){
-        /*TODO create a "blank" prop that contains all the social nets, by getting Prop.snList (social network list)
-        * we can do all this automatically
-        */
-        ArrayList<Service> networks=new ArrayList<Service>();
-        networks.add(new Service("facebook", R.drawable.facebook));
-        networks.add(new Service("g+", R.drawable.g_plus));
-        networks.add(new Service("instagram", R.drawable.instagram));
-        networks.add(new Service("linkedIn", R.drawable.linkedin));
-
-        ServicesOptionsAdapter adapter= new ServicesOptionsAdapter(getActivity(),networks);
+        ServicesOptionsAdapter adapter = new ServicesOptionsAdapter(getActivity(),list.getSnList());
         serviceOptionsList.setAdapter(adapter);
-
-
-      gadapter  = new GroupAdapter(getActivity());
+        gadapter  = new GroupAdapter(getActivity());
         propList.setAdapter(gadapter);
     }
 
