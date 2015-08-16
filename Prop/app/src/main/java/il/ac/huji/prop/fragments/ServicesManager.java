@@ -54,7 +54,7 @@ public class ServicesManager extends BaseFragment {
     }
 
     private void initOptionsList(){
-        ServicesOptionsAdapter adapter = new ServicesOptionsAdapter(getActivity(),list.getSnList());
+        ServicesOptionsAdapter adapter = new ServicesOptionsAdapter(getActivity(),list.getServiceList());
         serviceOptionsList.setAdapter(adapter);
         gAdapter = new GroupAdapter(getActivity());
         propList.setAdapter(gAdapter);

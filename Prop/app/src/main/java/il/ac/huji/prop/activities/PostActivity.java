@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Random;
 
 import il.ac.huji.prop.R;
+import il.ac.huji.prop.models.History;
 import il.ac.huji.prop.models.Post;
 import il.ac.huji.prop.models.Prop;
 import il.ac.huji.prop.models.Utils;
@@ -63,7 +64,7 @@ public class PostActivity extends ActionBarActivity implements View.OnClickListe
     private Uri mCurrentPath;
     private Post mPost;
     private Prop mProp;
-
+    private History gHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +85,7 @@ public class PostActivity extends ActionBarActivity implements View.OnClickListe
         bProp.setOnClickListener(this);
         r = new Random();
         mPost = new Post();
+        gHistory = History.getInstance();
 
     }
 
@@ -122,6 +124,7 @@ public class PostActivity extends ActionBarActivity implements View.OnClickListe
 
             case (R.id.post_prop): {
                 mProp.propagate(mPost);
+                gHistory.addPost(mPost);
                 break;
             }
 

@@ -3,7 +3,7 @@ package il.ac.huji.prop.models;
 /**
  * Created by Android- on 5/10/2015.
  */
-public class Service {
+public abstract class Service {
 
     private String name;
     private int icon;

@@ -7,28 +7,28 @@ import java.util.ArrayList;
  */
 public class Prop {
 
-    private ArrayList<Service> snList;
+    private ArrayList<Service> serviceList;
     private String name;
     private long id;
 
 
     public Prop(String name, ArrayList<Service> snList,  long id) {
 
-        this.snList = snList;
+        this.serviceList = snList;
         this.name = name;
         this.id = id;
     }
 
-    public void setSnList(ArrayList<Service> snList) {
-        this.snList = snList;
+    public void setServiceList(ArrayList<Service> serviceList) {
+        this.serviceList = serviceList;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public ArrayList<Service> getSnList() {
-        return snList;
+    public ArrayList<Service> getServiceList() {
+        return serviceList;
     }
 
     public String toString() {
@@ -40,7 +40,7 @@ public class Prop {
     }
 
     public void propagate(Post post){
-        for (Service sn:snList){
+        for (Service sn: serviceList){
             if (sn.isOpen()) {
                 sn.propagate(post);
             }
