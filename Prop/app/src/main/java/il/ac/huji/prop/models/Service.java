@@ -1,11 +1,16 @@
 package il.ac.huji.prop.models;
 
+import android.net.Uri;
+
+import java.io.IOException;
+
 /**
  * Created by Android- on 5/10/2015.
  */
-public abstract class Service {
+public class Service {
 
     private String name;
+
     private int icon;
     private boolean isOpen;
 
@@ -33,8 +38,11 @@ public abstract class Service {
     public boolean isOpen(){
         return this.isOpen;
     }
+    public void setOpen(){
 
-    public void propagate(Post post){
+    }
+
+    public void propagate(Post post) throws IOException {
 
         return;
     }
