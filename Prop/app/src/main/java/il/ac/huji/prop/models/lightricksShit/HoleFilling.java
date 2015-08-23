@@ -16,49 +16,32 @@ public class HoleFilling {
 
      */
 
-    int rows;
-    int cols;
-    float [][] img;
-    ArrayList <Pixel> boundary;
-    ArrayList <Pixel> hole;
-    ArrayList stHole;
-    ArrayList endHole;
+    private int rows;
+    private int cols;
+    private float [][] img;
+    private ArrayList <Pixel> boundary;
+    private ArrayList <Pixel> hole;
+    private int [] stHole;
+    private int [] endHole;
 
     public static void main(String[] args) {
 
     }
 
+    private void init(){
+
+        stHole = new int [rows];
+        endHole = new int[cols];
+
+    }
     private void findHole(){
         for (int i = 0; i < rows; i++){
             for(int j = 0; j < cols; j++){
-                if( img[i][j] < 0 ){
-                    hole.add(new Pixel(i,j,-1));
-                    continue;
-                }
-                if (img[i+1][j] < 0){
+                if (img[i+1][j] < 0 || img[i][j+1] < 0 || img[i-1][j] < 0 || img[i][j-1] < 0){
                     findBoundary(i,j,true,true);
                     i=rows;
                     j=cols;
                     continue;
-                }
-                if (img[i][j+1] < 0){
-                    findBoundary(i,j,true,false);
-                    i=rows;
-                    j=cols;
-                    continue;
-                }
-                if (img[i-1][j] < 0){
-                    findBoundary(i,j,false,true);
-                    i=rows;
-                    j=cols;
-                    continue;
-                }
-                if (img[i][j-1] < 0){
-                    findBoundary(i,j,false,false);
-                    i=rows;
-                    j=cols;
-                    continue;
-                }
             }
         }
     }
@@ -70,6 +53,7 @@ public class HoleFilling {
         boolean inLimits = true;
         do{
             if (j+1 < cols && img[i][j+1] < 0){
+                stHole[i] = j ;
                 if (i-1 < 0 ){
                     inLimits = false;
                     j += 1;
