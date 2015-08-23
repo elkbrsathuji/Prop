@@ -5,21 +5,21 @@ import java.util.ArrayList;
 /**
  * Created by elkbrs on 27/05/15.
  */
-public class Prop {
+public class PropList {
 
-    private ArrayList<Service> serviceList;
+    private ArrayList<SocialService> serviceList;
     private String name;
     private long id;
 
 
-    public Prop(String name, ArrayList<Service> snList,  long id) {
+    public PropList(String name, ArrayList<SocialService> snList, long id) {
 
         this.serviceList = snList;
         this.name = name;
         this.id = id;
     }
 
-    public void setServiceList(ArrayList<Service> serviceList) {
+    public void setServiceList(ArrayList<SocialService> serviceList) {
         this.serviceList = serviceList;
     }
 
@@ -27,7 +27,7 @@ public class Prop {
         this.name = name;
     }
 
-    public ArrayList<Service> getServiceList() {
+    public ArrayList<SocialService> getServiceList() {
         return serviceList;
     }
 
@@ -39,11 +39,4 @@ public class Prop {
         return id;
     }
 
-    public void propagate(Post post){
-        for (Service sn: serviceList){
-            if (sn.isOpen()) {
-                sn.propagate(post);
-            }
-        }
-    }
 }

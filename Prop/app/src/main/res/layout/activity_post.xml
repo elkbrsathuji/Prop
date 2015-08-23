@@ -32,16 +32,16 @@
         android:gravity="center"
         android:padding="10dp">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/post_photo"
-            android:src="@drawable/ic_camera_black_18dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:background="@drawable/ic_camera_black_18dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
             android:layout_gravity="center"/>
 
-        <ImageButton
+        <ImageView
             android:id="@+id/post_vid"
             android:src="@drawable/ic_video_black_18dp"
             android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
             android:paddingRight="25dp"
             android:layout_gravity="center"/>
 
-        <ImageButton
+        <ImageView
             android:id="@+id/post_file"
             android:src="@drawable/ic_attachment_black_18dp"
             android:layout_width="wrap_content"
@@ -59,7 +59,7 @@
             android:paddingRight="25dp"
             android:layout_gravity="center"/>
 
-        <ImageButton
+        <ImageView
             android:id="@+id/post_location"
             android:src="@drawable/ic_map_marker_circle_black_18dp"
             android:layout_width="wrap_content"
@@ -68,7 +68,7 @@
             android:paddingRight="25dp"
             android:layout_gravity="center"/>
 
-        <ImageButton
+        <ImageView
             android:id="@+id/post_choose_prop"
             android:src="@drawable/ic_weather_windy_black_18dp"
             android:layout_width="wrap_content"

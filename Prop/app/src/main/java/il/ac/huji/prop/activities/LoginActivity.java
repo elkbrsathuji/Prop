@@ -1,7 +1,12 @@
 package il.ac.huji.prop.activities;
 
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +25,8 @@ import com.facebook.login.widget.LoginButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import il.ac.huji.prop.R;
@@ -32,25 +39,49 @@ private LoginButton fbLogin;
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
+
+//        try {
+//            PackageInfo info = getPackageManager().getPackageInfo(
+//                    "il.ac.huji.prop",
+//                    PackageManager.GET_SIGNATURES);
+//            for (Signature signature : info.signatures) {
+//                MessageDigest md = MessageDigest.getInstance("SHA");
+//                md.update(signature.toByteArray());
+//                Log.d("DEBUG", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+//            }
+//        } catch (Exception e) {
+//e.printStackTrace();
+//        }
+
+
+
+
+
+//        Log.d("DEBUG","hash key:  "+FacebookSdk.getApplicationSignature(getApplicationContext()));
         clbkManager=CallbackManager.Factory.create();
         fbLogin=(LoginButton)findViewById(R.id.login_button);
         fbLogin.setPublishPermissions(Arrays.asList("publish_actions"));
         fbLogin.registerCallback(clbkManager,new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                Log.d("DEBUG","success login");
+
                 AccessToken fbToken=loginResult.getAccessToken();
                 Log.d("DEBUG",fbToken.getToken());
                 publish(fbToken);
+
+                Intent i=new Intent(LoginActivity.this,PostActivity.class);
+                startActivity(i);
             }
 
             @Override
             public void onCancel() {
-
+                Log.d("DEBUG","cancel login");
             }
 
             @Override
             public void onError(FacebookException e) {
-
+                Log.d("DEBUG","error login "+e.toString() );
             }
         });
 
@@ -95,5 +126,13 @@ private LoginButton fbLogin;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        clbkManager.onActivityResult(requestCode, resultCode, data);
     }
 }

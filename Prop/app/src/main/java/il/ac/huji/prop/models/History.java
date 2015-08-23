@@ -2,12 +2,14 @@ package il.ac.huji.prop.models;
 
 import java.util.ArrayList;
 
+import il.ac.huji.prop.models.ManagerModels.PropManager;
+
 /**
  * Created by elkbrs on 16/08/15.
  */
 public class History {
     private static History ourInstance = new History();
-    ArrayList <Prop> propList;
+    ArrayList <PropManager> propList;
     ArrayList <Post> postList;
     User mUser;
     public static History getInstance() {
@@ -15,16 +17,16 @@ public class History {
     }
 
     private History() {
-        propList = new ArrayList<Prop>();
+        propList = new ArrayList<PropManager>();
         postList = new ArrayList<Post>();
         mUser = null;
     }
 
-    public ArrayList<Prop> getPropList() {
+    public ArrayList<PropManager> getPropList() {
         return propList;
     }
 
-    public void setPropList(ArrayList<Prop> propList) {
+    public void setPropList(ArrayList<PropManager> propList) {
         this.propList = propList;
     }
     public ArrayList<Post> getPostList() {

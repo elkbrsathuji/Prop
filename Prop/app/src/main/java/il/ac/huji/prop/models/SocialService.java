@@ -1,5 +1,6 @@
 package il.ac.huji.prop.models;
 
+import android.content.Context;
 import android.net.Uri;
 
 import java.io.IOException;
@@ -7,17 +8,19 @@ import java.io.IOException;
 /**
  * Created by Android- on 5/10/2015.
  */
-public class Service {
+public abstract class SocialService {
 
     private String name;
 
     private int icon;
     private boolean isOpen;
+    protected Context mContext;
 
-    public Service(String name, int icon, boolean isOpen){
+    public SocialService(Context context, String name, int icon, boolean isOpen){
         this.name=name;
         this.icon=icon;
         this.isOpen = isOpen;
+        this.mContext=context;
     }
     public String getName() {
         return name;
@@ -42,7 +45,7 @@ public class Service {
 
     }
 
-    public void propagate(Post post) throws IOException {
+    public void propagate(Post post){
 
         return;
     }

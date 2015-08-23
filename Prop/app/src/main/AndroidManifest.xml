@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="il.ac.huji.prop" >
+    <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-permission android:name="android.permission.internet" />
     <uses-feature android:name="android.hardware.camera"
                   android:required="true" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -43,6 +43,8 @@
         <activity
             android:name=".activities.PostActivity"
             android:label="@string/title_activity_post" >
+
+
         </activity>
     </application>
 

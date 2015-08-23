@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import il.ac.huji.prop.R;
 import il.ac.huji.prop.adapters.GroupAdapter;
 import il.ac.huji.prop.adapters.ServicesOptionsAdapter;
-import il.ac.huji.prop.models.Prop;
-import il.ac.huji.prop.models.Service;
+import il.ac.huji.prop.models.PropList;
+import il.ac.huji.prop.models.SocialService;
 
 /**
  * Created by Android- on 5/10/2015.
@@ -27,7 +27,7 @@ public class ServicesManager extends BaseFragment {
     private View mView;
     private ListView serviceOptionsList;
     private ListView propList;
-    private Prop list;
+    private PropList list;
     ImageView first,second;
     GroupAdapter gAdapter;
     RelativeLayout target;
@@ -39,19 +39,19 @@ public class ServicesManager extends BaseFragment {
         propList = (ListView) mView.findViewById(R.id.social_network_groups);
         target = (RelativeLayout) mView.findViewById(R.id.droppedTarget);
         target.setOnDragListener(new MyDragEventListener());
-        list = new Prop("global",createGlobalList(),0);
+//        list = new PropList("global",createGlobalList(),0);
         initOptionsList();
         return mView;
     }
 //One place to rule them all
-    private ArrayList<Service> createGlobalList() {
-        ArrayList<Service> networks = new ArrayList<Service>();
-        networks.add(new Service("facebook", R.drawable.facebook,false));
-        networks.add(new Service("g+", R.drawable.g_plus,false));
-        networks.add(new Service("instagram", R.drawable.instagram,false));
-        networks.add(new Service("linkedIn", R.drawable.linkedin,false));
-        return networks;
-    }
+//    private ArrayList<SocialService> createGlobalList() {
+//        ArrayList<SocialService> networks = new ArrayList<SocialService>();
+//        networks.add(new SocialService("facebook", R.drawable.facebook,false));
+//        networks.add(new SocialService("g+", R.drawable.g_plus,false));
+//        networks.add(new SocialService("instagram", R.drawable.instagram,false));
+//        networks.add(new SocialService("linkedIn", R.drawable.linkedin,false));
+//        return networks;
+//    }
 
     private void initOptionsList(){
         ServicesOptionsAdapter adapter = new ServicesOptionsAdapter(getActivity(),list.getServiceList());

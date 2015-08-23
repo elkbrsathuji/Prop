@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 import il.ac.huji.prop.R;
-import il.ac.huji.prop.models.Service;
+import il.ac.huji.prop.models.SocialService;
 
 /**
  * Created by Android- on 5/10/2015.
@@ -26,9 +26,9 @@ public class ServicesOptionsAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private ArrayList<Service> mServices;
+    private ArrayList<SocialService> mServices;
 
-    public ServicesOptionsAdapter(Context context, ArrayList<Service> list){
+    public ServicesOptionsAdapter(Context context, ArrayList<SocialService> list){
         mContext=context;
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mServices =list;
