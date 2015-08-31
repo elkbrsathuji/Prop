@@ -17,5 +17,8 @@
     <string name="title_services">Services:</string>
     <string name="msg_err_must_fill_name">must fill prop name</string>
     <string name="msg_type_your_name">Type your prop name</string>
+    <string name="msg_must_choose_prop">Must choose prop</string>
+    <string name="lbl_continue">continue</string>
+    <string name="msg_upload_post">Upload your post</string>
 
 </resources>

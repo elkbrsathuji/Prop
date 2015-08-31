@@ -11,6 +11,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -53,6 +54,7 @@ public class LoginActivity extends ActionBarActivity {
 
 private LoginButton fbLogin;
     private TwitterLoginButton twitLogin;
+    private Button continueBtn;
     CallbackManager clbkManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,14 @@ private LoginButton fbLogin;
 
 
 //        Log.d("DEBUG","hash key:  "+FacebookSdk.getApplicationSignature(getApplicationContext()));
+        continueBtn=(Button)findViewById(R.id.login_continue);
+        continueBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(LoginActivity.this,MainActivity.class);
+                startActivity(i);
+            }
+        });
         clbkManager=CallbackManager.Factory.create();
         fbLogin=(LoginButton)findViewById(R.id.login_button);
         fbLogin.setPublishPermissions(Arrays.asList("publish_actions"));
@@ -80,8 +90,7 @@ private LoginButton fbLogin;
                 Log.d("DEBUG",fbToken.getToken());
 //                publish(fbToken);
 //
-                Intent i=new Intent(LoginActivity.this,PostActivity.class);
-                startActivity(i);
+
             }
 
             @Override
@@ -102,8 +111,7 @@ private LoginButton fbLogin;
             public void success(Result<TwitterSession> result) {
 Log.d("DEBUG","success to login to twitter");
                 TwitterService.setToken( result.data.getAuthToken());
-                Intent i=new Intent(LoginActivity.this,PostActivity.class);
-                startActivity(i);
+
             }
 
             @Override
@@ -111,43 +119,10 @@ Log.d("DEBUG","success to login to twitter");
                Log.d("DEBUG","fail to login to twitter. "+exception.getMessage());
             }
         });
+
+
+
     }
-
-
-//    private void loginToTwitter() {
-//        // Check if already logged in
-//        if (!isTwitterLoggedInAlready()) {
-//            ConfigurationBuilder builder = new ConfigurationBuilder();
-//            builder.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
-//            builder.setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET);
-//            Configuration configuration = builder.build();
-//
-//            TwitterFactory factory = new TwitterFactory(configuration);
-//            twitter = factory.getInstance();
-//
-//            try {
-//                requestToken = twitter
-//                        .getOAuthRequestToken(TWITTER_CALLBACK_URL);
-//                this.startActivity(new Intent(Intent.ACTION_VIEW, Uri
-//                        .parse(requestToken.getAuthenticationURL())));
-//            } catch (TwitterException e) {
-//                e.printStackTrace();
-//            }
-//        } else {
-//            // user already logged into twitter
-//            Toast.makeText(getApplicationContext(),
-//                    "Already Logged into twitter", Toast.LENGTH_LONG).show();
-//        }
-//    }
-//
-//    /**
-//     * Check user already logged in your application using twitter Login flag is
-//     * fetched from Shared Preferences
-//     * */
-//    private boolean isTwitterLoggedInAlready() {
-//        // return twitter login status from Shared Preferences
-//        return mSharedPreferences.getBoolean(PREF_KEY_TWITTER_LOGIN, false);
-//    }
 
 
 

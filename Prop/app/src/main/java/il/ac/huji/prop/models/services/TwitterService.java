@@ -1,31 +1,17 @@
 package il.ac.huji.prop.models.services;
 
-import android.annotation.TargetApi;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.twitter.sdk.android.core.AuthToken;
-import com.twitter.sdk.android.core.Callback;
-import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.TwitterApiClient;
 import com.twitter.sdk.android.core.TwitterAuthToken;
-import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
-import com.twitter.sdk.android.core.models.Tweet;
-import com.twitter.sdk.android.core.services.StatusesService;
-import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.io.File;
 
-import il.ac.huji.prop.MainActivity;
 import il.ac.huji.prop.R;
 import il.ac.huji.prop.models.Post;
 import il.ac.huji.prop.models.SocialService;
@@ -52,7 +38,8 @@ private static TwitterAuthToken token;
 
 
     @Override
-    public void propagate(final Post post) {
+    public void propagate(final Post post, onFinishUploadListener listener) {
+        this.listener=listener;
 propTask=new AsyncTask<String, String, String>() {
     /**
      * Before starting background thread Show Progress Dialog
@@ -60,11 +47,7 @@ propTask=new AsyncTask<String, String, String>() {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-//        pDialog = new ProgressDialog(MainActivity.this);
-//        pDialog.setMessage("Updating to twitter...");
-//        pDialog.setIndeterminate(false);
-//        pDialog.setCancelable(false);
-//        pDialog.show();
+
     }
 
     /**
@@ -78,10 +61,6 @@ propTask=new AsyncTask<String, String, String>() {
             builder.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
             builder.setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET);
 
-            // Access Token
-//            String access_token = mSharedPreferences.getString(PREF_KEY_OAUTH_TOKEN, "");
-            // Access Token Secret
-//            String access_token_secret = mSharedPreferences.getString(PREF_KEY_OAUTH_SECRET, "");
 
             AccessToken accessToken = new AccessToken(token.token, token.secret);
             Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
@@ -114,19 +93,7 @@ propTask=new AsyncTask<String, String, String>() {
      * from background thread, otherwise you will get error
      * **/
     protected void onPostExecute(String file_url) {
-        // dismiss the dialog after getting all products
-//        pDialog.dismiss();
-//        // updating UI from Background Thread
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Toast.makeText(getApplicationContext(),
-//                        "Status tweeted successfully", Toast.LENGTH_SHORT)
-//                        .show();
-//                // Clearing EditText field
-//                txtUpdate.setText("");
-//            }
-//        });
+        TwitterService.this.listener.onFinishUpload();
     }
 
 };
@@ -152,16 +119,6 @@ propTask.execute(post.getTxt());
         }
     }
 
-//    public void uploadPic(File file, String message,Twitter twitter) throws Exception  {
-//        try{
-//            StatusUpdate status = new StatusUpdate(message);
-//            status.setMedia(file);
-//            twitter.updateStatus(status);}
-//        catch(TwitterException e){
-//            Log.d("TAG", "Pic Upload error" + e.getErrorMessage());
-//            throw e;
-//        }
-//    }
 
     public static void setToken(TwitterAuthToken token) {
     TwitterService.token=token;

@@ -2,7 +2,6 @@ package il.ac.huji.prop.models.services;
 
 import android.content.Context;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -12,43 +11,29 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import il.ac.huji.prop.R;
 import il.ac.huji.prop.models.Post;
 import il.ac.huji.prop.models.SocialService;
-import il.ac.huji.prop.network.ConnectionManager;
 
 /**
 * Created by elkbrs on 16/08/15.
 */
 public class Facebook extends SocialService {
     URL url;
-//    private static Facebook ourInstance =    new Facebook ("facebook", R.drawable.facebook,false);
 
-//    public Facebook(Context context,String name, int icon, boolean isOpen) {
-//        super(context,name, icon, isOpen);
-//    }
 
     public Facebook(Context context,boolean isOpen){
         super(context,"facebook", R.drawable.facebook, isOpen);
     }
 
-//    public static Facebook getInstance() {
-//        return ourInstance;
-//    }
 
-    public void propagate(Post post) {
 
+    public void propagate(Post post, onFinishUploadListener listener) {
+this.listener=listener;
 
         if (post.getPhotFile() != null) {
             publishPostWithPhoto(post);
@@ -68,6 +53,7 @@ public class Facebook extends SocialService {
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
                         Log.d("DEBUG", "finish upload message");
+                        listener.onFinishUpload();
             /* handle the result */
                     }
                 }
@@ -86,6 +72,7 @@ public class Facebook extends SocialService {
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
                         Log.d("DEBUG", "finish upload");
+                        listener.onFinishUpload();
             /* handle the result */
                     }
                 }

@@ -12,6 +12,9 @@ import java.io.IOException;
  */
 public abstract class SocialService {
 
+    public interface onFinishUploadListener{
+        public void onFinishUpload();
+    }
     private static int counter=0;
     private String name;
 
@@ -22,8 +25,9 @@ public abstract class SocialService {
     private int id;
 
     protected Context mContext;
+    protected onFinishUploadListener listener;
 
-    public SocialService(Context context, String name, int icon, boolean isOpen){
+    public SocialService(Context context, String name, int icon, boolean isOpen) {
         this.name=name;
         this.icon=icon;
         this.isOpen = isOpen;
@@ -57,7 +61,7 @@ public abstract class SocialService {
         return this.id;
     }
 
-    public abstract void propagate(Post post);
+    public abstract void propagate(Post post, onFinishUploadListener listener);
 
     @Override
     public boolean equals(Object o) {

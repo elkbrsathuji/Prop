@@ -1,15 +1,21 @@
 package il.ac.huji.prop.models.services;
 
+import android.content.Context;
+
+import il.ac.huji.prop.R;
+import il.ac.huji.prop.models.Post;
+import il.ac.huji.prop.models.SocialService;
+
 /**
  * Created by elkbrs on 16/08/15.
  */
-public class Vimeo {
-    private static Vimeo ourInstance = new Vimeo();
-
-    public static Vimeo getInstance() {
-        return ourInstance;
+public class Vimeo extends SocialService{
+    public Vimeo(Context context,boolean isOpen){
+        super(context,"twitter", R.drawable.twitter, isOpen);
     }
 
-    private Vimeo() {
+    @Override
+    public void propagate(Post post, onFinishUploadListener listener) {
+
     }
 }

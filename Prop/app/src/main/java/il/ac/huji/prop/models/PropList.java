@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class PropList {
 
-    private static int counter;
+    public static int counter;
 //    private ArrayList<SocialService> serviceList;
     int[] services;
     private String name;

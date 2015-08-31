@@ -28,12 +28,12 @@ mContext=context;
       return _instance;
   }
 
-    public void propagate(Post post, PropList props)  {
+    public void propagate(Post post, PropList props, SocialService.onFinishUploadListener listener)  {
 
         for (int i: props.getServices()){
             SocialService sn=DataStore.getInstance(mContext).getServicesListAsHash().get(i);
             if (sn.isOpen()) {
-                sn.propagate(post);
+                sn.propagate(post, listener);
             }
         }
 

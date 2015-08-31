@@ -18,7 +18,6 @@ import java.util.Arrays;
 
 import il.ac.huji.prop.DataStore;
 import il.ac.huji.prop.R;
-import il.ac.huji.prop.activities.PropActivity;
 import il.ac.huji.prop.models.PropList;
 import il.ac.huji.prop.models.SocialService;
 

@@ -1,15 +1,21 @@
 package il.ac.huji.prop.models.services;
 
+import android.content.Context;
+
+import il.ac.huji.prop.R;
+import il.ac.huji.prop.models.Post;
+import il.ac.huji.prop.models.SocialService;
+
 /**
  * Created by elkbrs on 16/08/15.
  */
-public class Linkedin {
-    private static Linkedin ourInstance = new Linkedin();
-
-    public static Linkedin getInstance() {
-        return ourInstance;
+public class Linkedin extends SocialService{
+    public Linkedin(Context context,boolean isOpen){
+        super(context,"twitter", R.drawable.linkedin, isOpen);
     }
 
-    private Linkedin() {
+    @Override
+    public void propagate(Post post, onFinishUploadListener listener) {
+
     }
 }

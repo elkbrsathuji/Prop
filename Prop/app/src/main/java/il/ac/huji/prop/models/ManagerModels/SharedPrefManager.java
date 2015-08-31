@@ -55,8 +55,8 @@ public class SharedPrefManager {
         } else
             return null;
 
+        PropList.counter=list.size();
         return (ArrayList<PropList>) list;
-//        return getList(context,ALL_PROPS);
     }
 
     public static void addProp(Context context, PropList prop) {
