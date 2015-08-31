@@ -13,5 +13,9 @@
     <string name="pick_pic">Select or take a new Picture</string>
     <string name="lbl_take_photo">Take Photo</string>
     <string name="lbl_choose_pic">Open Gallery</string>
+    <string name="title_my_props">My Props:</string>
+    <string name="title_services">Services:</string>
+    <string name="msg_err_must_fill_name">must fill prop name</string>
+    <string name="msg_type_your_name">Type your prop name</string>
 
 </resources>

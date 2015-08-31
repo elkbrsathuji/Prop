@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:orientation="horizontal">
+
+
+    <LinearLayout
+        android:id="@+id/prop_list_of_props_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
+        android:background="#E0F2F1"
+
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_my_props"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="16dp"
+            android:textSize="@dimen/title_dimen"
+            android:textColor="#FFA726"/>
+        <ListView
+            android:id="@+id/prop_list_of_props"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+android:paddingLeft="8dp"
+            android:divider="@null"
+            android:paddingRight="8dp"
+
+            />
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/prop_all_services_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:background="#00897B"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/prop_all_services_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_services"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="16dp"
+                android:textSize="@dimen/title_dimen"
+                android:textColor="#FFA726"/>
+
+            <EditText
+                android:hint="@string/msg_type_your_name"
+                android:id="@+id/prop_specific_prop_name"
+                android:visibility="gone"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="16dp"
+                android:textSize="@dimen/title_dimen"
+                android:textColor="#FFA726"/>
+            <ListView
+                android:id="@+id/prop_list_of_services"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+
+                />
+            </LinearLayout>
+
+
+
+    </LinearLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:clickable="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:src="@android:drawable/ic_input_add"
+            />
+
+
+
+</RelativeLayout>

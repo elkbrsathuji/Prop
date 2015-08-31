@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -22,6 +24,16 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+
+import il.ac.huji.prop.models.services.TwitterService;
+import io.fabric.sdk.android.Fabric;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,28 +42,26 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import il.ac.huji.prop.R;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.Configuration;
+import twitter4j.conf.ConfigurationBuilder;
 
 public class LoginActivity extends ActionBarActivity {
+
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+
+
 private LoginButton fbLogin;
+    private TwitterLoginButton twitLogin;
     CallbackManager clbkManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TwitterService.TWITTER_CONSUMER_KEY, TwitterService.TWITTER_CONSUMER_SECRET);
+        Fabric.with(this, new Twitter(authConfig));
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
 
-//        try {
-//            PackageInfo info = getPackageManager().getPackageInfo(
-//                    "il.ac.huji.prop",
-//                    PackageManager.GET_SIGNATURES);
-//            for (Signature signature : info.signatures) {
-//                MessageDigest md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                Log.d("DEBUG", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-//            }
-//        } catch (Exception e) {
-//e.printStackTrace();
-//        }
 
 
 
@@ -68,8 +78,8 @@ private LoginButton fbLogin;
 
                 AccessToken fbToken=loginResult.getAccessToken();
                 Log.d("DEBUG",fbToken.getToken());
-                publish(fbToken);
-
+//                publish(fbToken);
+//
                 Intent i=new Intent(LoginActivity.this,PostActivity.class);
                 startActivity(i);
             }
@@ -85,33 +95,61 @@ private LoginButton fbLogin;
             }
         });
 
-    }
 
-
-    private void publish(AccessToken fbToken){
-        GraphRequest request = GraphRequest.newMeRequest(fbToken,new GraphRequest.GraphJSONObjectCallback() {
+        twitLogin = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
+        twitLogin.setCallback(new Callback<TwitterSession>() {
             @Override
-            public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
-                String id = null;
-                try {
-                    id = graphResponse.getJSONObject().getString("id");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Log.d("DEBUG",id);
+            public void success(Result<TwitterSession> result) {
+Log.d("DEBUG","success to login to twitter");
+                TwitterService.setToken( result.data.getAuthToken());
+                Intent i=new Intent(LoginActivity.this,PostActivity.class);
+                startActivity(i);
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+               Log.d("DEBUG","fail to login to twitter. "+exception.getMessage());
             }
         });
-        Bundle params= new Bundle();
-        params.putString("fields","id,name,link");
-        request.setParameters(params);
-        request.executeAsync();
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
-        return true;
-    }
+
+
+//    private void loginToTwitter() {
+//        // Check if already logged in
+//        if (!isTwitterLoggedInAlready()) {
+//            ConfigurationBuilder builder = new ConfigurationBuilder();
+//            builder.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
+//            builder.setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET);
+//            Configuration configuration = builder.build();
+//
+//            TwitterFactory factory = new TwitterFactory(configuration);
+//            twitter = factory.getInstance();
+//
+//            try {
+//                requestToken = twitter
+//                        .getOAuthRequestToken(TWITTER_CALLBACK_URL);
+//                this.startActivity(new Intent(Intent.ACTION_VIEW, Uri
+//                        .parse(requestToken.getAuthenticationURL())));
+//            } catch (TwitterException e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            // user already logged into twitter
+//            Toast.makeText(getApplicationContext(),
+//                    "Already Logged into twitter", Toast.LENGTH_LONG).show();
+//        }
+//    }
+//
+//    /**
+//     * Check user already logged in your application using twitter Login flag is
+//     * fetched from Shared Preferences
+//     * */
+//    private boolean isTwitterLoggedInAlready() {
+//        // return twitter login status from Shared Preferences
+//        return mSharedPreferences.getBoolean(PREF_KEY_TWITTER_LOGIN, false);
+//    }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -134,5 +172,8 @@ private LoginButton fbLogin;
     {
         super.onActivityResult(requestCode, resultCode, data);
         clbkManager.onActivityResult(requestCode, resultCode, data);
+        twitLogin.onActivityResult(requestCode, resultCode, data);
     }
+
+
 }

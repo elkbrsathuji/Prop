@@ -23,6 +23,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import il.ac.huji.prop.R;
 import il.ac.huji.prop.models.Post;
 import il.ac.huji.prop.models.SocialService;
 import il.ac.huji.prop.network.ConnectionManager;
@@ -34,8 +35,12 @@ public class Facebook extends SocialService {
     URL url;
 //    private static Facebook ourInstance =    new Facebook ("facebook", R.drawable.facebook,false);
 
-    public Facebook(Context context,String name, int icon, boolean isOpen) {
-        super(context,name, icon, isOpen);
+//    public Facebook(Context context,String name, int icon, boolean isOpen) {
+//        super(context,name, icon, isOpen);
+//    }
+
+    public Facebook(Context context,boolean isOpen){
+        super(context,"facebook", R.drawable.facebook, isOpen);
     }
 
 //    public static Facebook getInstance() {

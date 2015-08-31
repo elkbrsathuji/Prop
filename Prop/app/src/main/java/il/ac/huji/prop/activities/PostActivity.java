@@ -36,6 +36,7 @@ import il.ac.huji.prop.models.ManagerModels.PropManager;
 import il.ac.huji.prop.models.PropList;
 import il.ac.huji.prop.models.SocialService;
 import il.ac.huji.prop.models.services.Facebook;
+import il.ac.huji.prop.models.services.TwitterService;
 
 public class PostActivity extends ActionBarActivity implements View.OnClickListener {
     private static final int PIC_CODE = 1;
@@ -111,7 +112,8 @@ mProp= chooseProp();
             }
 
             case (R.id.post_prop): {
-                PropManager.getInstance().propagate(mPost, mProp);
+                mPost.setTxt(post.getText().toString());
+                PropManager.getInstance(this).propagate(mPost, mProp);
                 gHistory.addPost(mPost);
                 break;
             }
@@ -160,8 +162,13 @@ mProp= chooseProp();
 
     private PropList chooseProp() {
         ArrayList<SocialService> services = new ArrayList<SocialService>();
-        services.add(new Facebook(this,"fb",R.drawable.facebook,true));
-        return new PropList("testList",services,11);
+        services.add(new Facebook(this,true));
+        services.add(new TwitterService(this,true));
+       int[] in= new int[2];
+
+       in[0]=0;
+        in[1]=1;
+        return new PropList(in,"testList");
     }
 
     private void postProp() {
