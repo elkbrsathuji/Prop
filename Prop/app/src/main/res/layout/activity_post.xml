@@ -5,25 +5,37 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
+    android:background="@color/divider"
     tools:context="il.ac.huji.prop.activities.PostActivity">
 
 
-        <EditText
-            android:id="@+id/post_text"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:inputType="text"
-            android:gravity="top"
-            android:outlineProvider="background"
-            android:layout_gravity="center"
-            android:hint="your post here, buddy"/>
+    <EditText
+        android:id="@+id/post_text"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:inputType="text"
+        android:textColor="@color/primary_text"
+        android:elevation="8dp"
+        android:gravity="top"
+        android:outlineProvider="background"
+        android:layout_gravity="center"
+        android:padding="16dp"
+        android:background="@color/icons"
+        android:hint="@string/post_hint"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/divider"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
+        android:elevation="8dp"
+        android:background="@color/icons"
         android:padding="10dp">
 
         <ImageView
@@ -32,9 +44,11 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-
             android:layout_gravity="center"/>
-
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="1dp"
+            android:background="@color/divider"/>
         <ImageView
             android:id="@+id/post_vid"
             android:src="@drawable/ic_video_black_18dp"
@@ -42,7 +56,10 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
-
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="1dp"
+            android:background="@color/divider"/>
         <ImageView
             android:id="@+id/post_file"
             android:src="@drawable/ic_attachment_black_18dp"
@@ -50,7 +67,10 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
-
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="1dp"
+            android:background="@color/divider"/>
         <ImageView
             android:id="@+id/post_location"
             android:src="@drawable/ic_map_marker_circle_black_18dp"
@@ -58,23 +78,34 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
-
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="1dp"
+            android:background="@color/divider"/>
         <Button
             android:id="@+id/post_choose_prop"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-
-           android:text="Choose\nprop"/>
+            android:textColor="@color/primary_text"
+            android:text="Pick\nprop"/>
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        android:background="@color/divider"/>
 
-        <Button
-            android:id="@+id/post_prop"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-android:background="@color/orange"
-            android:text="Prop!"/>
+    <Button
+        android:id="@+id/post_prop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/accent"
+        android:text="Prop!"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@color/divider"/>
 
 </LinearLayout>
 

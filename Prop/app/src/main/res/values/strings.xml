@@ -20,5 +20,6 @@
     <string name="msg_must_choose_prop">Must choose prop</string>
     <string name="lbl_continue">continue</string>
     <string name="msg_upload_post">Upload your post</string>
+    <string name="post_hint">your post here, buddy</string>
 
 </resources>
