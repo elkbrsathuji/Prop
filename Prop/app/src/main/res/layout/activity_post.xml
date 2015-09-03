@@ -16,12 +16,11 @@
         android:layout_width="match_parent"
         android:inputType="text"
         android:textColor="@color/primary_text"
-        android:elevation="8dp"
+        android:background="@android:drawable/dialog_holo_light_frame"
         android:gravity="top"
         android:outlineProvider="background"
         android:layout_gravity="center"
         android:padding="16dp"
-        android:background="@color/icons"
         android:hint="@string/post_hint"/>
 
     <TextView
@@ -34,8 +33,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:elevation="8dp"
-        android:background="@color/icons"
+        android:background="@android:drawable/dialog_holo_light_frame"
         android:padding="10dp">
 
         <ImageView

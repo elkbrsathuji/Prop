@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:background="@color/primary"
     android:elevation="2dp"
-    local:theme="@style/android:Theme.Material.Light.DarkActionBar"
-    local:popupTheme="style/android:Theme.Material.Light"
+    local:theme="@style/android:Theme.Material.Light.DarkActionBar" />
 
-     />
+   <!---->
+    <!--app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
+    <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
+

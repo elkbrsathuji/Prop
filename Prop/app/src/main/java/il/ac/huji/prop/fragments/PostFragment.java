@@ -121,7 +121,6 @@ private int uploadedCounter;
         bChooseProp.setOnClickListener(this);
         bProp = (Button) view.findViewById(R.id.post_prop);
         bProp.setOnClickListener(this);
-        r = new Random();
         mPost = new Post();
         gHistory = History.getInstance();
 
