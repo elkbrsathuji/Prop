@@ -6,6 +6,8 @@ import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import il.ac.huji.prop.models.History;
+import il.ac.huji.prop.models.ManagerModels.SharedPrefManager;
 import il.ac.huji.prop.models.Post;
 import il.ac.huji.prop.models.SocialService;
 import il.ac.huji.prop.models.services.Facebook;
@@ -26,7 +28,10 @@ public class DataStore {
     private DataStore(Context context){
         mContext=context;
         initServices();
+        initHistory();
     }
+
+
 
     public static DataStore getInstance(Context context){
         if (_instance==null){
@@ -46,6 +51,12 @@ public class DataStore {
         mServices.add(new Vimeo(mContext,true));
     }
 
+    private void initHistory(){
+       History.getInstance().setPostList( SharedPrefManager.getHistory(mContext));
+    }
+public ArrayList<Post> getHistory(){
+    return History.getInstance().getPostList();
+}
     public ArrayList<SocialService>getServicesList(){
         return mServices;
     }

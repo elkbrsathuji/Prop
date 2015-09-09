@@ -17,14 +17,20 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
     int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
-
-
+    PropFragment propFragment;
+    PostFragment postFragment;
+    FeedFragment feedFragment;
     // Build a Constructor and assign the passed Values to appropriate values in the class
     public ViewPagerAdapter(FragmentManager fm, CharSequence mTitles[], int mNumbOfTabsumb) {
         super(fm);
 
         this.Titles = mTitles;
         this.NumbOfTabs = mNumbOfTabsumb;
+        propFragment=PropFragment.newInstance();
+        postFragment=PostFragment.newInstance();
+        feedFragment=FeedFragment.newInstance();
+
+        postFragment.addListener((PostFragment.AddPostListener) feedFragment);
 
     }
 
@@ -36,13 +42,13 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
           case 0:
 
 
-            return PropFragment.newInstance();
+            return propFragment;
           case 1:
 
-          return PostFragment.newInstance();
+          return postFragment;
 
           case 2:
-              return FeedFragment.newInstance();
+              return feedFragment;
         }
         return null;
 

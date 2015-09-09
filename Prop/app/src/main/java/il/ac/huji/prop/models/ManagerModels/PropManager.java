@@ -1,6 +1,7 @@
 package il.ac.huji.prop.models.ManagerModels;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -28,12 +29,23 @@ mContext=context;
       return _instance;
   }
 
-    public void propagate(Post post, PropList props, SocialService.onFinishUploadListener listener)  {
+    public void propagate(final Post post, PropList props, final SocialService.onFinishUploadListener listener)  {
 
-        for (int i: props.getServices()){
-            SocialService sn=DataStore.getInstance(mContext).getServicesListAsHash().get(i);
+        for ( int counter=0;counter<props.getServices().length;counter++){
+            int i= props.getServices()[counter];
+            Log.d("DEBUG","enter with service: "+i);
+            final SocialService sn=DataStore.getInstance(mContext).getServicesListAsHash().get(i);
             if (sn.isOpen()) {
-                sn.propagate(post, listener);
+                final int serviceId=i;
+                sn.propagate(post, new SocialService.onFinishUploadListener() {
+                    @Override
+                    public void onFinishUpload(String id) {
+Log.d("DEBUG","add service: "+serviceId);
+                        post.addPostId(serviceId,id);
+                        listener.onFinishUpload(id);
+
+                    }
+                });
             }
         }
 

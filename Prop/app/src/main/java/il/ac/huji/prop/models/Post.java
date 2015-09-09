@@ -1,7 +1,13 @@
 package il.ac.huji.prop.models;
 
+import android.content.Context;
 import android.location.Location;
 import android.net.Uri;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import il.ac.huji.prop.DataStore;
 
 /**
  * Created by elkbrs on 19/07/15.
@@ -12,6 +18,31 @@ public class Post {
     private Uri uplFile;
     private String txt;
     private Location loc;
+private PropList mProp;
+    private HashMap<Integer,String> postIds;
+
+    public PropList getmProp() {
+        return mProp;
+    }
+
+    public void setmProp(PropList mProp) {
+        this.mProp = mProp;
+    }
+
+    String id;
+    private int likesCounter;
+    private int twitCounter;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+
+
 
     public Post(){
 
@@ -20,6 +51,7 @@ public class Post {
         this.uplFile = null;
         this.txt = null;
         this.loc = null;
+        postIds= new HashMap<Integer,String>();
     }
 
     public Post(Uri photFile, Uri vidFile, Uri uplFile, String txt, Location loc) {
@@ -29,6 +61,7 @@ public class Post {
         this.uplFile = uplFile;
         this.txt = txt;
         this.loc = loc;
+        postIds= new HashMap<Integer,String>();
     }
 
     public Uri getPhotFile() {
@@ -71,4 +104,12 @@ public class Post {
         this.loc = loc;
     }
 
+    public void addPostId(int service, String id){
+        postIds.put(service,id);
+    }
+
+    public String getServicePostId(int  service){
+
+        return postIds.get(service);
+    }
 }

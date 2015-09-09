@@ -3,6 +3,7 @@
     android:id="@+id/prop_name"
     android:textSize="16sp"
     android:padding="8dp"
+    android:textColor="@color/primary_light"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
 </TextView>

@@ -15,7 +15,12 @@ public class Vimeo extends SocialService{
     }
 
     @Override
-    public void propagate(Post post, onFinishUploadListener listener) {
+    public void propagate(Post post,  onFinishUploadListener listener) {
+
+    }
+
+    @Override
+    public void getLikes(Post post,int i, onFinishGetLikes listener) {
 
     }
 }

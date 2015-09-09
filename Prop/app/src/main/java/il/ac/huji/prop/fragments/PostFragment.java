@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,7 +23,10 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import il.ac.huji.prop.R;
@@ -36,13 +40,13 @@ import il.ac.huji.prop.models.services.Facebook;
 import il.ac.huji.prop.models.services.TwitterService;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link PostFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link PostFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+* A simple {@link Fragment} subclass.
+* Activities that contain this fragment must implement the
+* {@link PostFragment.OnFragmentInteractionListener} interface
+* to handle interaction events.
+* Use the {@link PostFragment#newInstance} factory method to
+* create an instance of this fragment.
+*/
 public class PostFragment extends Fragment implements View.OnClickListener,SocialService.onFinishUploadListener {
 
     private static final int PIC_CODE = 1;
@@ -62,10 +66,11 @@ public class PostFragment extends Fragment implements View.OnClickListener,Socia
     private History gHistory;
 
 private int uploadedCounter;
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+
+    public interface AddPostListener{
+        public void addPost(Post post);
+    }
+    private List<AddPostListener> mListeners = new ArrayList<AddPostListener>();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -97,10 +102,7 @@ private int uploadedCounter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
@@ -121,7 +123,7 @@ private int uploadedCounter;
         bChooseProp.setOnClickListener(this);
         bProp = (Button) view.findViewById(R.id.post_prop);
         bProp.setOnClickListener(this);
-        mPost = new Post();
+mPost=new Post();
         gHistory = History.getInstance();
 
         //to remove - JUST FOR DEBUG
@@ -130,6 +132,13 @@ private int uploadedCounter;
 
 
         return view;
+    }
+
+    private void initUI(){
+        mPost = new Post();
+        bPhoto.setBackgroundColor(Color.WHITE);
+        bChooseProp.setBackgroundColor(Color.WHITE);
+        post.setText("");
     }
 
     public void onClick(View v) {
@@ -167,9 +176,12 @@ private int uploadedCounter;
                 if (validate()) {
                     showLoader();
                     mPost.setTxt(post.getText().toString());
+                    mPost.setmProp(mProp);
                     uploadedCounter=mProp.getServices().length;
                     PropManager.getInstance(getActivity()).propagate(mPost, mProp,this);
                     gHistory.addPost(mPost);
+
+
                 }
                 break;
             }
@@ -207,6 +219,7 @@ private int uploadedCounter;
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mProp=props.get(which);
+                bChooseProp.setBackgroundResource(R.color.material_deep_teal_200);
             }
         });
         builder3.show();
@@ -244,22 +257,21 @@ private int uploadedCounter;
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == REQUEST_IMAGE_CAPTURE &&data != null && data.getData() != null) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE &&data != null ) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             final Uri imageFileUri = data.getData();
+bPhoto.setBackgroundResource(R.color.material_deep_teal_200);
+//            Picasso.with(getActivity().getApplicationContext())
+//                    .load(imageFileUri)
+//                    .into(bPhoto);
 
-            Picasso.with(getActivity().getApplicationContext())
-                    .load(imageFileUri)
-                    .into(bPhoto);
 
             mPost.setPhotFile(imageFileUri);
         }else if (requestCode == PICK_IMAGE && data != null && data.getData() != null) {
             final Uri imageFileUri = data.getData();
             mPost.setPhotFile(imageFileUri);
-            Picasso.with(getActivity().getApplicationContext())
-                    .load(imageFileUri)
-                    .into(bPhoto);
+            bPhoto.setBackgroundResource(R.color.material_deep_teal_200);
         }
         else if (requestCode == PICK_VIDEO && data != null && data.getData() != null) {
             final Uri imageFileUri = data.getData();
@@ -274,7 +286,7 @@ private int uploadedCounter;
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            PostFragment.this.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
 
@@ -285,12 +297,7 @@ private int uploadedCounter;
     }
 
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -310,10 +317,12 @@ private int uploadedCounter;
     }
 
     @Override
-    public void onFinishUpload() {
+    public void onFinishUpload(String id) {
        uploadedCounter--;
         if (uploadedCounter==0){
 removeLoader();
+            initUI();
+            notifyListeners();
         }
     }
 
@@ -338,6 +347,21 @@ removeLoader();
         progressDialog=null;
     }
 
+    private void notifyListeners() {
+        for (AddPostListener listener : mListeners) {
+           listener.addPost(mPost);
+        }
+    }
+
+    public void addListener(AddPostListener listener){
+        if (!mListeners.contains(listener)){
+            mListeners.add(listener);
+        }
+    }
+
+    public void removeListener(AddPostListener listener){
+        mListeners.remove(listener);
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

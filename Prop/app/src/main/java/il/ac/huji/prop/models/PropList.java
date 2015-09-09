@@ -1,6 +1,7 @@
 package il.ac.huji.prop.models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by elkbrs on 27/05/15.
@@ -46,6 +47,7 @@ public class PropList {
         this.services = services;
         this.name = name;
         this.id=counter++;
+
     }
 
     public PropList() {
@@ -76,6 +78,7 @@ public class PropList {
     public int getId() {
         return id;
     }
+
 
     @Override
     public boolean equals(Object o) {

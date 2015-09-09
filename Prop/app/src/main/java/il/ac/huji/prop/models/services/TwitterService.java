@@ -31,9 +31,10 @@ public class TwitterService extends SocialService {
 private AsyncTask<String, String, String> propTask;
 private static TwitterAuthToken token;
     private static String tokenSecret;
-
+//     twitter;
     public TwitterService(Context context,boolean isOpen){
         super(context,"twitter", R.drawable.twitter, isOpen);
+
     }
 
 
@@ -56,16 +57,17 @@ propTask=new AsyncTask<String, String, String>() {
     protected String doInBackground(String... args) {
         Log.d("Tweet Text", "> " + args[0]);
         String msg = args[0];
+        twitter4j.Status response=null;
         try {
+
+
             ConfigurationBuilder builder = new ConfigurationBuilder();
             builder.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
             builder.setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET);
 
 
             AccessToken accessToken = new AccessToken(token.token, token.secret);
-            Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
-
-
+            Twitter   twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
 
             StatusUpdate status = new StatusUpdate(msg);
 
@@ -75,7 +77,7 @@ propTask=new AsyncTask<String, String, String>() {
                 status.setMedia(new File(getRealPathFromURI(mContext,post.getPhotFile())));
             }
             // Update status
-            twitter4j.Status response = twitter.updateStatus(status);
+          response  = twitter.updateStatus(status);
 
             Log.d("Status", "> " + response.getText());
         } catch (TwitterException e) {
@@ -84,7 +86,7 @@ propTask=new AsyncTask<String, String, String>() {
         } catch (twitter4j.TwitterException e) {
             e.printStackTrace();
         }
-        return null;
+        return String.valueOf(response.getId());
     }
 
     /**
@@ -92,8 +94,8 @@ propTask=new AsyncTask<String, String, String>() {
      * the data in UI Always use runOnUiThread(new Runnable()) to update UI
      * from background thread, otherwise you will get error
      * **/
-    protected void onPostExecute(String file_url) {
-        TwitterService.this.listener.onFinishUpload();
+    protected void onPostExecute(String id) {
+        TwitterService.this.listener.onFinishUpload(id);
     }
 
 };
@@ -104,6 +106,40 @@ propTask.execute(post.getTxt());
 
 
     }
+
+    @Override
+    public void getLikes(final Post post, final int i,final onFinishGetLikes listener) {
+
+
+        new AsyncTask<Void, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(Void... params) {
+                try {
+                    ConfigurationBuilder builder = new ConfigurationBuilder();
+                    builder.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
+                    builder.setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET);
+
+
+                    AccessToken accessToken = new AccessToken(token.token, token.secret);
+                    Twitter   twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
+                    return twitter.tweets().getRetweets(Long.valueOf(post.getServicePostId(i))).size();
+                } catch (twitter4j.TwitterException e) {
+                    e.printStackTrace();
+                    return 0;
+
+                }
+
+            }
+
+            @Override
+            protected void onPostExecute(Integer integer) {
+                listener.onFinishLikes(integer);
+                super.onPostExecute(integer);
+            }
+        }.execute();
+
+    }
+
     public String getRealPathFromURI(Context context, Uri contentUri) {
         Cursor cursor = null;
         try {

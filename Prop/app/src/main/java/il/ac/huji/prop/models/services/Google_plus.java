@@ -18,4 +18,9 @@ public class Google_plus extends SocialService {
     public void propagate(Post post, onFinishUploadListener listener) {
 
     }
+
+    @Override
+    public void getLikes(Post post,int i,  onFinishGetLikes listener) {
+
+    }
 }

@@ -1,5 +1,6 @@
 package il.ac.huji.prop.activities;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.view.MenuItem;
 
 import il.ac.huji.prop.R;
 import il.ac.huji.prop.adapters.ViewPagerAdapter;
+import il.ac.huji.prop.models.History;
+import il.ac.huji.prop.models.ManagerModels.SharedPrefManager;
 import il.ac.huji.prop.views.SlidingTabLayout;
 
 
@@ -82,7 +85,18 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+    }
 
+    @Override
+    protected void onPause() {
+        try{
+            SharedPrefManager.saveHistory(this, History.getInstance().getPostList());
+        }catch (Exception e){
 
-
+        }
+        super.onPause();
+    }
 }

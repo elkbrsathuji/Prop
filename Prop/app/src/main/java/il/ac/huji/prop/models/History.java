@@ -34,7 +34,9 @@ public class History {
     }
 
     public void setPostList(ArrayList<Post> postList) {
-        this.postList = postList;
+        if (postList != null) {
+            this.postList = postList;
+        }
     }
 
     public void addPost (Post p){

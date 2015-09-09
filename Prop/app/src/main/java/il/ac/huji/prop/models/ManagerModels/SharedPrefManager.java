@@ -2,9 +2,18 @@ package il.ac.huji.prop.models.ManagerModels;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.DataInputStream;
@@ -16,6 +25,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import il.ac.huji.prop.Utils.UriDeserializer;
+import il.ac.huji.prop.Utils.UriSerializer;
+import il.ac.huji.prop.models.Post;
 import il.ac.huji.prop.models.PropList;
 import il.ac.huji.prop.models.SocialService;
 
@@ -26,6 +38,7 @@ public class SharedPrefManager {
     private static final String PREFS_NAME = "PROP_APP";
     private static final String ALL_SERVICES = "ALL_SERVICES";
     private static final String ALL_PROPS = "ALL_PROPS";
+    private static final String HISTORY = "HISTORY";
 //    private static final String PREFS_NAME = "PROP_APP";
 
 //    public static ArrayList<String> getAllServices(Context context){
@@ -94,25 +107,65 @@ public class SharedPrefManager {
         editor.commit();
     }
 
-//    private static ArrayList<String> getArray(Context context, String fileName){
-//        ArrayList<String> array= new ArrayList<String>();
-//        try {
-//            FileInputStream input = context.openFileInput(fileName+".txt"); // Open input stream
-//            DataInputStream din = new DataInputStream(input);
-//            int sz = din.readInt(); // Read line count
-//            for (int i = 0; i < sz; i++) { // Read lines
-//                String line = din.readUTF();
-//                array.add(line);
-//            }
-//            din.close();
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        return array;
-//    }
+    public static  void saveHistory(Context context, ArrayList<Post> list) {
+        SharedPreferences settings;
+
+
+        SharedPreferences.Editor editor;
+
+        settings = context.getSharedPreferences(PREFS_NAME,
+                Context.MODE_PRIVATE);
+        editor = settings.edit();
 
 
 
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Uri.class, new UriSerializer())
+                .create();
+
+        String jsonList =gson.toJson(list, ArrayList.class);
+//        bdl.putString("oModel",);
+
+
+
+//        Gson gson = new Gson();
+////        Type listOfTestObject = new TypeToken<List<PropList>>(){}.getType();
+//        String jsonList = gson.toJson(list,ArrayList.class);
+
+        editor.putString(HISTORY, jsonList);
+
+        editor.commit();
+    }
+
+    public static ArrayList<Post> getHistory(Context context){
+        SharedPreferences settings;
+        List<Post> list;
+
+        settings = context.getSharedPreferences(PREFS_NAME,
+                Context.MODE_PRIVATE);
+
+        if (settings.contains(HISTORY)) {
+            String jsonFavorites = settings.getString(HISTORY, null);
+
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(Uri.class, new UriDeserializer())
+                    .create();
+
+            Post[] strings = gson.fromJson(jsonFavorites,   Post[].class);
+
+//
+//            Gson gson = new Gson();
+//            Post[] strings = gson.fromJson(jsonFavorites,
+//                    Post[].class);
+
+            list = Arrays.asList(strings);
+            list = new ArrayList<Post>(list);
+        } else
+            return null;
+
+        PropList.counter=list.size();
+        return (ArrayList<Post>) list;
+    }
 
     // This four methods are used for maintaining favorites.
     private static  void saveList(Context context, List<String> list, String name) {
@@ -174,4 +227,7 @@ public class SharedPrefManager {
 
 
 
+
+
 }
+

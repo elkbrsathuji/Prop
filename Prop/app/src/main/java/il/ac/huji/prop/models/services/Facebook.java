@@ -11,6 +11,9 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -32,16 +35,46 @@ public class Facebook extends SocialService {
 
 
 
-    public void propagate(Post post, onFinishUploadListener listener) {
+    public void propagate(Post post,  onFinishUploadListener listener) {
 this.listener=listener;
 
         if (post.getPhotFile() != null) {
-            publishPostWithPhoto(post);
+//            publishPostWithPhoto(post);
+            publishTextWithPic(post);
         } else {
             publishTextPost(post);
         }
     }
-    private void  publishTextPost(Post post){
+
+    @Override
+    public void getLikes(Post post,int i, final onFinishGetLikes listener) {
+
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/"+post.getServicePostId(i)+"/likes",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        if (response != null  && response.getJSONObject()!=null) {
+                            Log.d("DEBUG", response.getJSONObject().toString());
+                            try {
+                                JSONArray likesArr=response.getJSONObject().getJSONArray("data");
+                                listener.onFinishLikes(likesArr.length());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }else{
+                            Log.d("DEBUG","res is null");
+                        }
+                    }
+                }
+        ).executeAsync();
+
+
+    }
+
+    private void  publishTextPost(final Post post){
         Bundle params = new Bundle();
         params.putString("message", post.getTxt());
 
@@ -52,14 +85,18 @@ this.listener=listener;
                 HttpMethod.POST,
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
-                        Log.d("DEBUG", "finish upload message");
-                        listener.onFinishUpload();
-            /* handle the result */
-                    }
+                        Log.d("DEBUG", "finish upload message\n  "+response.getJSONObject().toString());
+                        String postId="";
+                        try {
+                            postId=response.getJSONObject().getString("id");
+//                       getLikes(post);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }listener.onFinishUpload(postId);                  }
                 }
         ).executeAsync();
     }
-    private void publishPostWithPhoto(Post post){
+    private void publishPostWithPhoto(final Post post){
 
         Bundle params = new Bundle();
         params.putByteArray("source", uri2BitmapArray(post.getPhotFile()));
@@ -72,15 +109,51 @@ this.listener=listener;
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
                         Log.d("DEBUG", "finish upload");
-                        listener.onFinishUpload();
-            /* handle the result */
+                        String postId="";
+                        try {
+                            postId=response.getJSONObject().getString("post_id");
+//                       getLikes(post);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }listener.onFinishUpload(postId);
+                    }
+                }
+        ).executeAsync();
+
+
+}
+
+    private void publishTextWithPic(final Post post){
+
+
+
+        Bundle params = new Bundle();
+        params.putByteArray("source", uri2BitmapArray(post.getPhotFile()));
+        params.putString("message", post.getTxt());
+
+
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/me/photos",
+                params,
+                HttpMethod.POST,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        Log.d("DEBUG", "finish upload");
+
+                        String postId="";
+                        try {
+                            postId=response.getJSONObject().getString("post_id");
+//                       getLikes(post);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }listener.onFinishUpload(postId);            /* handle the result */
                     }
                 }
         ).executeAsync();
 
 
     }
-
 
 
    private  byte[] uri2BitmapArray(Uri uri) {
